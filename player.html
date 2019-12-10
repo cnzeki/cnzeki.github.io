@@ -234,6 +234,20 @@
         ctx.closePath();
         applyStyle(ctx, style);
     }
+    
+    function drawPolyline(ctx, points, style) {
+        ctx.beginPath();
+        setStyle(ctx, style);
+        let N = points.length;
+        var i = 0;
+        // move to first
+        ctx.moveTo(points[i].x, points[i].y);
+        for (; i < N; i++) {
+            ctx.lineTo(points[i].x, points[i].y);
+        }
+        ctx.closePath();
+        applyStyle(ctx, style);
+    }
 
     function drawRectangle(ctx, x, y, w, h, style) {
         ctx.beginPath();
@@ -318,6 +332,8 @@
                 drawRectangle(ctx, p.x, p.y, p.w, p.h, style);
             } else if ('polygon' == shape) {
                 drawPolygon(ctx, p.points, style);
+            } else if ('polyline' == shape) {
+                drawPolyline(ctx, p.points, style);
             } else if ('text' == shape) {
                 drawText(ctx, p.text, p.x, p.y, style);
             }
