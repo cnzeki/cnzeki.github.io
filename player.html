@@ -259,9 +259,31 @@
         setStyle(ctx, style);
         ctx.fillText(text, x, y);
     }
+    function resumePause(t){
+        setTimeout(function () {
+            let videoObj = document.getElementById('video');
+            videoObj.pause();
+        }, t);
+    }
+    function playGoto(t){
+        let videoObj = document.getElementById('video');
+        let paused = videoObj.paused;
+        
+        if(!paused){
+            videoObj.pause();
+        }
+        videoObj.currentTime = t;
+        if(paused){
+            resumePause(1000);
+        }
+        else{
+            videoObj.play();
+        }
+    }
     function doKeyEvent(e) {
         var keyID = e.keyCode ? e.keyCode :e.which;
         let videoObj = document.getElementById('video');
+        let paused = videoObj.paused;
         // SPACE toggle play
         if(keyID == 32){
             if(videoObj.paused){
@@ -275,7 +297,7 @@
         if(keyID == 37 || keyID == 39){
             cur = videoObj.currentTime;
             dt = keyID == 37 ? -1 : 1;
-            videoObj.currentTime = cur + dt;
+            playGoto(cur + dt);
         }
 	}
     function windowToCanvas(canvas, x, y) { 
@@ -285,10 +307,11 @@
     function doMouseEvent(e){
         let canvas = document.getElementById("canvas");
         let videoObj = document.getElementById('video');
+        let paused = videoObj.paused;
         let p = windowToCanvas(canvas, e.x, e.y);
         duration = videoObj.duration;
         r = p.x * duration / canvas.width;
-        videoObj.currentTime = r;
+        playGoto(r);
     }
     function play() {
         console.log("event");
