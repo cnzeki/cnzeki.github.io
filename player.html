@@ -91,7 +91,7 @@
     </div>
 </div>
 <div id="body">
-    <video id="video" class="content" controls="controls">
+    <video id="video" class="content" >
         你的浏览器貌似不支持video 元素 %>_<%
         <source src="" type="video/mp4">
     </video>
@@ -259,7 +259,37 @@
         setStyle(ctx, style);
         ctx.fillText(text, x, y);
     }
-
+    function doKeyEvent(e) {
+        var keyID = e.keyCode ? e.keyCode :e.which;
+        let videoObj = document.getElementById('video');
+        // SPACE toggle play
+        if(keyID == 32){
+            if(videoObj.paused){
+                videoObj.play();
+            }
+            else{
+                videoObj.pause();
+            }
+        }
+        // Left Right
+        if(keyID == 37 || keyID == 39){
+            cur = videoObj.currentTime;
+            dt = keyID == 37 ? -1 : 1;
+            videoObj.currentTime = cur + dt;
+        }
+	}
+    function windowToCanvas(canvas, x, y) { 
+        var bbox = canvas.getBoundingClientRect();
+        return { x: x-bbox.left * (canvas.width / bbox.width), y: y-bbox.top * (canvas.height / bbox.height) }; 
+    }
+    function doMouseEvent(e){
+        let canvas = document.getElementById("canvas");
+        let videoObj = document.getElementById('video');
+        let p = windowToCanvas(canvas, e.x, e.y);
+        duration = videoObj.duration;
+        r = p.x * duration / canvas.width;
+        videoObj.currentTime = r;
+    }
     function play() {
         console.log("event");
         files = document.getElementById('v_file').files;
@@ -301,16 +331,21 @@
                 });
                 // track progress
                 videoObj.addEventListener('timeupdate', function () {
+                    var canvas = document.getElementById("canvas");
                     current = this.currentTime;
+                    drawControl(canvas, current);
                     matched = matchTimestamp(current, anno_list, 1.0);
                     if (!matched.length) {
                         clearCanvas();
                         return;
                     }
                     // draw frame
-                    var canvas = document.getElementById("canvas");
                     renderFrames(canvas, matched);
                 });
+                // key events
+                window.addEventListener('keydown', doKeyEvent, true);
+                // mouse events
+                canvas.addEventListener('mousedown', doMouseEvent, true);
             });
         }
     }
@@ -341,8 +376,43 @@
             }
         }
     }
+    
+    function prettyTime(seconds){
+        // H:M:S
+        let sec = parseInt(seconds);
+        let hour = parseInt(sec/3600);
+        let left = parseInt(sec % 3600);
+        let min = parseInt(left/60);
+        sec = parseInt(left % 60);
+        let result = '';
+        if(hour > 0){
+            result = ''+hour+':';
+            if(min < 10) {
+                min = "0" + min;
+            }
+            result = result + min+":";
+            if(sec < 10) {
+                sec = "0" + sec;
+            }
+            result = result + sec;
+        }
+        else{
+            if(min > 0)
+            {
+                result = ''+min+':';
+                if(sec < 10) {
+                    sec = "0" + sec;
+                }
+                result = result + sec;
+            }
+            else{
+                result = '' + sec;
+            }
+        }
+        return result;
+    }
 
-    function renderFrames(canvas, frameList) {
+    function drawControl(canvas, current){
         let ctx = canvas.getContext("2d");
         // set scale
         canvas_width = canvas.width;
@@ -354,7 +424,30 @@
         // console.log("canvas:"+canvas_width);
         ctx.resetTransform();
         ctx.scale(canvas_width*1.0/video_width, canvas_height*1.0/video_height);
+        // draw bar
+        marginBottom = 1;
+        radius = 5;
+        bar_y = video_height-radius;
+        style = { stroke: -1, color: '#4CAF50'};
+        drawRectangle(ctx, 0, bar_y-marginBottom, video_width, 2*marginBottom, style);
+        // progress
+        let videoObj = document.getElementById('video');
+        pos = current * video_width / videoObj.duration;
+        style.color = 'rgba(250, 0, 0, 0.7)';
+        drawRectangle(ctx, 0, bar_y-marginBottom, pos, 2*marginBottom, style);
+        style.color = 'white';
+        style.stroke = -1;
+        drawCircle(ctx, pos, bar_y, radius, style);
+        // text
+        ptxt = prettyTime(current);
+        dtxt = prettyTime(videoObj.duration);
+        txt = ptxt + ' / ' + dtxt;
+        style.font = 'bold 14pt Arial';
+        drawText(ctx, txt, 0, bar_y-14, style);
+    }
 
+    function renderFrames(canvas, frameList) {
+        let ctx = canvas.getContext("2d");
         for (let i = 0; i < frameList.length; i++) {
             renderFrame(ctx, frameList[i]);
         }
