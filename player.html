@@ -229,8 +229,6 @@
             ctx.lineTo(points[i].x, points[i].y);
         }
         // close up
-        i = 0;
-        ctx.lineTo(points[i].x, points[i].y);
         ctx.closePath();
         applyStyle(ctx, style);
     }
@@ -245,7 +243,7 @@
         for (; i < N; i++) {
             ctx.lineTo(points[i].x, points[i].y);
         }
-        ctx.closePath();
+        //ctx.closePath();
         applyStyle(ctx, style);
     }
 
@@ -319,6 +317,10 @@
 
     function renderFrame(ctx, frame) {
         objList = frame.objectList;
+        defStyle = frame.style;
+        if(defStyle != undefined){
+            setStyle(defStyle);
+        }
         for (let i = 0; i < objList.length; i++) {
             obj = objList[i];
             p = obj.params;
