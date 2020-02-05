@@ -154,9 +154,10 @@
                 continue;
             }
             // is in between ?
-            if (frame.timeStart <= current && current <= frame.timeStop) {
+            if (frame.timeStart <= current && current < frame.timeStop) {
                 matched.push(frame);
             }
+            continue;
             // try preload ?
             let dt_start = current - frame.timeStart;
             if (dt_start < 0 && dt_start > -0.2 * delta) {
@@ -357,7 +358,7 @@
                     var canvas = document.getElementById("canvas");
                     current = this.currentTime;
                     drawControl(canvas, current);
-                    matched = matchTimestamp(current, anno_list, 1.0);
+                    matched = matchTimestamp(current, anno_list, 0.1);
                     if (!matched.length) {
                         clearCanvas();
                         return;
@@ -453,6 +454,7 @@
         bar_y = video_height-radius;
         style = { stroke: -1, color: '#4CAF50'};
         drawRectangle(ctx, 0, bar_y-marginBottom, video_width, 2*marginBottom, style);
+
         // progress
         let videoObj = document.getElementById('video');
         pos = current * video_width / videoObj.duration;
@@ -461,6 +463,8 @@
         style.color = 'white';
         style.stroke = -1;
         drawCircle(ctx, pos, bar_y, radius, style);
+        style.stroke = 1;
+        drawLine(ctx, pos, bar_y, pos, 0, style);
         // text
         ptxt = prettyTime(current);
         dtxt = prettyTime(videoObj.duration);
