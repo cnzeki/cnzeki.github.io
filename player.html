@@ -350,6 +350,13 @@
                 videoObj.addEventListener('canplay', function () {
                     video_width = this.videoWidth;
                     video_height = this.videoHeight;
+                    
+                    var canvas = document.getElementById("canvas");
+                    //canvas.width = this.videoWidth
+                    //canvas.height = this.videoHeight
+                    //this.width = this.videoWidth
+                    //this.height = this.videoHeight
+                    console.log("video:"+video_width+","+video_height);
                     this.play();
                 });
                 // track progress
@@ -442,31 +449,44 @@
         canvas_height = canvas.height;
         canvas_offw = canvas.offsetWidth;
         canvas_offh = canvas.offsetHeight;
-        canvas.width = canvas_offw;
-        canvas.height = canvas_offh;
-        // console.log("canvas:"+canvas_width);
+        //canvas.width = canvas_offw;
+        //canvas.height = canvas_offh;
+        
+        let videoObj = document.getElementById('video');
+        rect = videoObj.getBoundingClientRect()
+        //console.log(videoObj.getBoundingClientRect())
+        canvas.width = rect.width;
+        canvas.height = rect.height;
+        video_width = canvas.width
+        video_height = canvas.height
+        // console.log("videoObj:"+videoObj.width+","+videoObj.height)
+        // canvas.height
         ctx.resetTransform();
-        ctx.scale(canvas_width*1.0/video_width, canvas_height*1.0/video_height);
+        //ctx.scale(canvas_width*100.0/video_width, canvas_height*100.0/video_height);
         // draw bar
-        marginBottom = 1;
-        radius = 5;
+        marginBottom = 2;
+        radius = 6;
         bar_y = video_height-radius;
         style = { stroke: -1, color: '#4CAF50'};
         drawRectangle(ctx, 0, bar_y-marginBottom, video_width, 2*marginBottom, style);
         // progress
-        let videoObj = document.getElementById('video');
+        //let videoObj = document.getElementById('video');
         pos = current * video_width / videoObj.duration;
         style.color = 'rgba(250, 0, 0, 0.7)';
         drawRectangle(ctx, 0, bar_y-marginBottom, pos, 2*marginBottom, style);
         style.color = 'white';
         style.stroke = -1;
         drawCircle(ctx, pos, bar_y, radius, style);
+        style.stroke = 1;
+        drawLine(ctx, pos, bar_y-marginBottom, pos, 0, style);
+        
         // text
         ptxt = prettyTime(current);
         dtxt = prettyTime(videoObj.duration);
         txt = ptxt + ' / ' + dtxt;
         style.font = 'bold 14pt Arial';
         drawText(ctx, txt, 0, bar_y-14, style);
+        ctx.scale(video_width/100.0, video_height/100.0);
     }
 
     function renderFrames(canvas, frameList) {
