@@ -8,49 +8,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <link rel="stylesheet" href="layui/css/layui.css"  media="all">
   <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
-</head>
-<body>
-          
-<blockquote class="layui-elem-quote layui-large-text">
-  有没有这样的经历，网络时代，要记的密码太多了，每个web、app都设置密码。 <br>
-  微信、QQ、支付宝、电脑、邮箱 ... 如此繁多的密码，太让人崩溃了。<br>
-  
-</blockquote>
-              
-<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
-  <legend>为你生成好用的密码</legend>
-</fieldset>
- 
-<form class="layui-form layui-form-pane" action="" lay-filter="example">
-  <div class="layui-form-item">
-    <label class="layui-form-label">输入钥匙</label>
-    <div class="layui-input-block">
-      <input type="text" id="userkey" name="userkey" lay-verify="title" autocomplete="off" placeholder="输入几个你记得住的字，自己不会忘的，别告诉他人。" class="layui-input">
-    </div>
-  </div>
- 
-  <div class="layui-form-item">
-    <div class="layui-input-block">
-      <button type="button" id="btnGen" onclick="gen()" class="layui-btn layui-btn-normal" style="min-width:10em;" >生成好用的密码</button>
-    </div>
-  </div>
-  
-  <input type="text" style="opacity: 0; z-index: -10;" id="passwordCopy" value="xxx">
-
-  <div class="layui-form-item">
-    <label class="layui-form-label">简单密码</label>
-    <div class="layui-input-block">
-      <button type="button" id="btn1" onclick="copy('btn1')" class="layui-btn" style="min-width:10em;"> </button>
-    </div>
-  </div>
-  
-  <div class="layui-form-item">
-    <label class="layui-form-label">复杂密码</label>
-    <div class="layui-input-block">
-      <button type="button" id="btn2" onclick="copy('btn2')"  class="layui-btn layui-btn-warm" style="min-width:10em;"></button>
-    </div>
-  </div>
-</form>
          
 <script src="layui/layui.js" charset="utf-8"></script>
 <script src="makepass.js" charset="utf-8"></script>
@@ -85,7 +42,7 @@
             document.execCommand("copy");
             console.log('复制成功')
             
-            message('复制到您剪贴板了');
+            message(text+' 复制到您剪贴板了');
         } catch (e) {
             console.log('复制失败')
         }
@@ -95,14 +52,93 @@
         let key = document.getElementById('userkey').value;
         key = strip(key);
         if(key.length < 1){
-            message("您还没输入钥匙呢，点我干嘛");
+            message("您还没输入钥匙呢，戳我干嘛");
+			document.getElementById('btn1').innerText = "";
+			document.getElementById('btn2').innerText = "";
+			document.getElementById('btn3').innerText = "";
+			return;
         }
         console.log(key);
         ret = makePassword(key);
         document.getElementById('btn1').innerText = ret['simple'];
         document.getElementById('btn2').innerText = ret['hard'];
+		document.getElementById('btn3').innerText = ret['simple'].substring(0,6);
     }
+	
+	function openshare(){
+	layui.use('layer', function(){ //独立版的layer无需执行这一句
+	  var $ = layui.jquery, layer = layui.layer; //独立版的layer无需执行这一句
+	  console.log('exe');
+	  //示范一个公告层
+	  layer.open({
+		type: 1
+		,title: ' ' //"快点扫我" //不显示标题栏
+		,closeBtn: false
+		,area: '300px;'
+		,shade: 0.5
+		,id: 'LAY_layuipro' //设定一个id，防止重复弹出
+		,btn: ['退下']
+		,btnAlign: 'c'
+		,moveType: 1 //拖拽模式，0或者1
+		,content: '<div id="layer-photos-demo" class="layer-photos-demo" style="text-align: center; border: blue solid 1px;"> <img src="img/pass-qrcode.png" style="width:10em;display: inline-block;" alt="分享" ></div'
+		
+	  });
+	  
+	});
+	}
 </script>
 
+</head>
+<body>
+          
+<blockquote class="layui-elem-quote layui-large-text">
+  网络时代，世界如此精彩<br>
+  微信、QQ、淘宝、手机、电脑、邮箱...<br>
+  到处都要记密码，我太难了，有没有？<br>
+  直到现在，终于有了这个神器<br>
+  <strong>把你记得住的一句话或者几个字，变成你的专属密码</strong><br>
+  让密码像歌词一样简单，把记不得的密码算回来<br>
+</blockquote>
+              
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+  <legend>为你生成好用的密码</legend>
+</fieldset>
+ 
+<form class="layui-form layui-form-pane" action="" lay-filter="example">
+  <div class="layui-form-item">
+    <label class="layui-form-label">输入钥匙</label>
+    <div class="layui-input-block">
+      <input type="text" id="userkey" name="userkey" lay-verify="title" autocomplete="off" placeholder="写一句话或几个字，你可别忘了，也别告诉他" class="layui-input">
+    </div>
+  </div>
+  
+ <button type="button" id="btnGen" onclick="gen()" class="layui-btn layui-btn-normal" style="min-width:10em;margin-left: 50px;" >戳这里生成好用的密码</button>
+
+  <hr class="layui-bg-gray">
+  <div class="layui-form-item">
+    <label class="layui-form-label">数字密码</label>
+    <div class="layui-input-block">
+      <button type="button" id="btn3" onclick="copy('btn3')" class="layui-btn layui-btn layui-btn-primary" style="min-width:10em;"> </button>
+    </div>
+  </div>
+  
+  <div class="layui-form-item">
+    <label class="layui-form-label">一般密码</label>
+    <div class="layui-input-block">
+      <button type="button" id="btn1" onclick="copy('btn1')" class="layui-btn" style="min-width:10em;"> </button>
+    </div>
+  </div>
+  
+  <div class="layui-form-item">
+    <label class="layui-form-label">复杂密码</label>
+    <div class="layui-input-block">
+      <button type="button" id="btn2" onclick="copy('btn2')"  class="layui-btn layui-btn-warm" style="min-width:10em;"></button>
+    </div>
+  </div>
+  <button type="button" class="layui-btn" onclick="openshare()" style="margin-left: 50px;">感觉棒棒哒，分享给朋友</button>
+  <input type="text" style="opacity: 0; z-index: -10; height: 1px" id="passwordCopy" value="xxx">
+
+</form>
+  
 </body>
 </html>
