@@ -31,8 +31,10 @@
     function copy(id) {
         let target = null;
         let text = document.getElementById(id).innerText;
-        
-        target = document.getElementById('passwordCopy');
+        if(text.length < 1){
+			return; 
+		}     
+		target = document.getElementById('passwordCopy');
         target.value = text;
         console.log(target);
         
@@ -80,7 +82,7 @@
 		,btn: ['退下']
 		,btnAlign: 'c'
 		,moveType: 1 //拖拽模式，0或者1
-		,content: '<div id="layer-photos-demo" class="layer-photos-demo" style="text-align: center; border: blue solid 1px;"> <img src="img/pass-qrcode.png" style="width:10em;display: inline-block;" alt="分享" ></div'
+		,content: '<div id="layer-photos-demo" class="layer-photos-demo" style="text-align: center; "> <img src="img/pass-qrcode.png" style="width:10em;display: inline-block;" alt="分享" ></div'
 		
 	  });
 	  
