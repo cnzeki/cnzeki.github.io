@@ -26,14 +26,22 @@ function isValidDigit(d, result) {
     if(n < 1){
         return 1;
     }
-    
+    // xx
     let last = parseInt(result.charAt(n-1));
     if(d == last){
         return 0;
     }
+    // abc
     if(n > 1){
         let ll = parseInt(result.charAt(n-2));
         if( last * 2 == (ll+d) && Math.abs(last-d) == 1){
+            return 0;
+        }
+    }
+    // aba b
+    if(n>2){
+        let ll = parseInt(result.charAt(n-2));
+        if( result.charAt(n-1) == result.charAt(n-3) && ll==d){
             return 0;
         }
     }
