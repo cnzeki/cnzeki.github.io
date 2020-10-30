@@ -28,15 +28,6 @@
     <!--MD5加密-->
     <script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
     <!-- 百度计数 -->
-    <script>
-        var _hmt = _hmt || [];
-        (function () {
-            var hm = document.createElement("script");
-            hm.src = "https://hm.baidu.com/hm.js?d16fb9eeb43888da64dc2c4977296707";
-            var s = document.getElementsByTagName("script")[0];
-            s.parentNode.insertBefore(hm, s);
-        })();
-    </script>
 
     <script>
         function strip(str) {
@@ -123,6 +114,10 @@
 
 </head>
 <body>
+<div style="display:none">
+<script type="text/javascript">document.write(unescape("%3Cspan id='cnzz_stat_icon_1279392994'%3E%3C/span%3E%3Cscript src='https://v1.cnzz.com/z_stat.php%3Fid%3D1279392994%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script>
+</div>
+
 <div class="main">
     <blockquote class="layui-elem-quote layui-large-text">
         网络时代，是不是经常会忘记密码？<br>
@@ -189,12 +184,11 @@
         </div>
 
         <div class="layui-form-item">
-            <div class="layui-input-inline">
-                <button type="button" class="layui-btn" onclick="openshare()">感觉棒棒哒，分享给朋友
-                </button>
-
-            </div>
-            <a href="https://github.com/cnzeki/cnzeki.github.io/tree/master/pass" class="layui-btn layui-btn-warm">了解原理</a>
+            <button type="button" class="layui-btn" onclick="openshare()">
+              <i class="layui-icon">&#xe641;</i> 分享给朋友
+            </button>
+            <a href="https://github.com/cnzeki/cnzeki.github.io/tree/master/pass"
+               class="layui-btn layui-btn-warm"><i class="layui-icon">&#xe735;</i> 了解原理</a>
         </div>
 
         <input type="text" style="opacity: 0; z-index: -10; height: 1px" id="passwordCopy"
