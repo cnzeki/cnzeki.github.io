@@ -28,6 +28,7 @@
         }
         body .layui-form-item .layui-input-inline + .layui-form-mid{
             margin-left:0;
+            top: 0;
         }
     </style>
     <script src="layui/layui.js" charset="utf-8"></script>
@@ -90,7 +91,6 @@
         function openshare() {
             layui.use('layer', function () { //独立版的layer无需执行这一句
                 var $ = layui.jquery, layer = layui.layer; //独立版的layer无需执行这一句
-                console.log('exe');
                 //示范一个公告层
                 layer.open({
                     type: 1
