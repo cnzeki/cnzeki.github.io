@@ -22,6 +22,13 @@
             right: 0;
             bottom: 0;
         }
+        body .layui-form-item .layui-input-inline{
+            float: left;
+            margin-left: 0;
+        }
+        body .layui-form-item .layui-input-inline + .layui-form-mid{
+            margin-left:0;
+        }
     </style>
     <script src="layui/layui.js" charset="utf-8"></script>
     <script src="makepass.js" charset="utf-8"></script>
@@ -113,7 +120,7 @@
     </script>
 
 </head>
-<body>
+<body class="main">
 <div style="display:none">
 <script type="text/javascript">document.write(unescape("%3Cspan id='cnzz_stat_icon_1279392994'%3E%3C/span%3E%3Cscript src='https://v1.cnzz.com/z_stat.php%3Fid%3D1279392994%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script>
 </div>
@@ -122,8 +129,8 @@
     <blockquote class="layui-elem-quote layui-large-text">
         网络时代，是不是经常会忘记密码？<br>
         这个神器可以帮到你<br>
-        <strong>把你记得住的一句话或者几个字，变成你的专属密码</strong><br>
-        你的密码可以是：
+        <strong>把你记得住的一句话或者几个字<br>
+            变成你的专属密码</strong><br>
         一句歌词、古诗、成语、什么都可以<br>
         记住它，随时把密码找回来<br>
     </blockquote>
@@ -159,7 +166,7 @@
                         class="layui-btn layui-btn layui-btn-primary"
                         style="min-width:10em;"></button>
             </div>
-            <div class="layui-form-mid layui-word-aux" >&lt;&lt;</div>
+            <div class="layui-form-mid layui-word-aux" >&lt;&lt;点击复制</div>
         </div>
 
         <div class="layui-form-item" >
