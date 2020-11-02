@@ -32,6 +32,10 @@
             margin-left:0;
             top: 0;
         }
+        #LAY_layuipro1 {
+            background-color:#00000000;
+            filter:Alpha(opacity=50);
+        }
     </style>
     <script src="layui/layui.js" charset="utf-8"></script>
     <script src="makepass.js" charset="utf-8"></script>
@@ -88,10 +92,9 @@
             document.getElementById('btn2').innerText = ret['hard'];
             document.getElementById('btn3').innerText = ret['simple'].substring(0, 6);
         }
-
-        function openshare(imgSrc, title) {
+        function openshare2(imgSrc, title) {
             layui.use('layer', function () { //独立版的layer无需执行这一句
-                var $ = layui.jquery, layer = layui.layer; //独立版的layer无需执行这一句
+                var layer = layui.layer; //独立版的layer无需执行这一句
                 //示范一个公告层
                 layer.open({
                     type: 1
@@ -100,12 +103,41 @@
                     ,
                     closeBtn: false
                     ,
-                    area: '300px;'
+                    shadeClose: true,
+                    shade: 0.3
+                    ,
+                    id: 'LAY_layuipro1' //设定一个id，防止重复弹出
+                    ,
+                    shadeClose: true,
+                    btn: ['关闭']
+                    ,
+                    btnAlign: 'c'
+                    ,
+                    moveType: 0 //拖拽模式，0或者1
+                    ,
+                    content: '<div id="layer-photos-demo" class="layer-photos-demo" style="text-align: center; background: transparent !important;"> <img src='+imgSrc+' style="width:12em;display: inline-block;" alt="分享" ></div'
+
+                });
+
+            });
+        }
+
+        function openshare(imgSrc, title) {
+            layui.use('layer', function () { //独立版的layer无需执行这一句
+                var layer = layui.layer; //独立版的layer无需执行这一句
+                //示范一个公告层
+                layer.open({
+                    type: 1
+                    ,
+                    title: title //不显示标题栏
+                    ,
+                    closeBtn: false
                     ,
                     shade: 0.5
                     ,
                     id: 'LAY_layuipro' //设定一个id，防止重复弹出
                     ,
+                    shadeClose: true,
                     btn: ['关闭']
                     ,
                     btnAlign: 'c'
@@ -145,7 +177,7 @@
             <label class="layui-form-label">输入钥匙</label>
             <div class="layui-input-block">
                 <input type="text" id="userkey" name="userkey" lay-verify="title" autocomplete="off"
-                       placeholder="在这里写一句你记得住的话或几个字" class="layui-input">
+                       placeholder="写一句你记得住的话或几个字" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item" >
@@ -190,10 +222,10 @@
         </div>
 
         <div class="layui-form-item">
-            <button type="button" class="layui-btn" style="padding: 0 8px;" onclick="openshare('img/pass-qrcode.png', '')">
+            <button type="button" class="layui-btn" style="padding: 0 8px;" onclick="openshare2('img/pass-qrcode.png', '扫描二维码或点微信右上角按钮')">
               <i class="layui-icon">&#xe641;</i> 分享给朋友们
             </button>
-            <button type="button" class="layui-btn"  style="padding: 0 5px;" onclick="openshare('img/zan-qr.jpg','①长按图片，②识别图中赞赏码')">
+            <button type="button" class="layui-btn"  style="padding: 0 5px;" onclick="openshare('img/zan-qr.jpg','①长按图片，②识别图中的二维码')">
               <i class="layui-icon">&#xe6c6;</i>打赏作者
             </button>
             <a href="https://github.com/cnzeki/cnzeki.github.io/tree/master/pass"
