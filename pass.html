@@ -90,14 +90,14 @@
             document.getElementById('btn3').innerText = ret['simple'].substring(0, 6);
         }
 
-        function openshare() {
+        function openshare(imgSrc, title) {
             layui.use('layer', function () { //独立版的layer无需执行这一句
                 var $ = layui.jquery, layer = layui.layer; //独立版的layer无需执行这一句
                 //示范一个公告层
                 layer.open({
                     type: 1
                     ,
-                    title: ' ' //不显示标题栏
+                    title: title //不显示标题栏
                     ,
                     closeBtn: false
                     ,
@@ -113,7 +113,7 @@
                     ,
                     moveType: 1 //拖拽模式，0或者1
                     ,
-                    content: '<div id="layer-photos-demo" class="layer-photos-demo" style="text-align: center; "> <img src="img/pass-qrcode.png" style="width:10em;display: inline-block;" alt="分享" ></div'
+                    content: '<div id="layer-photos-demo" class="layer-photos-demo" style="text-align: center; "> <img src='+imgSrc+' style="width:12em;display: inline-block;" alt="分享" ></div'
 
                 });
 
@@ -191,14 +191,14 @@
         </div>
 
         <div class="layui-form-item">
-            <button type="button" class="layui-btn" style="padding: 0 8px;" onclick="openshare()">
+            <button type="button" class="layui-btn" style="padding: 0 8px;" onclick="openshare('img/pass-qrcode.png', '')">
               <i class="layui-icon">&#xe641;</i> 分享给朋友们
             </button>
-            <button type="button" class="layui-btn"  style="padding: 0 5px;" onclick="openshare()">
-              <i class="layui-icon">&#xe65e;</i>打赏作者
+            <button type="button" class="layui-btn"  style="padding: 0 5px;" onclick="openshare('img/zan-qr.jpg','①长按图片，②识别图中赞赏码')">
+              <i class="layui-icon">&#xe6c6;</i>打赏作者
             </button>
             <a href="https://github.com/cnzeki/cnzeki.github.io/tree/master/pass"
-               class="layui-btn layui-btn-warm"  style="padding: 0 5px;"><i class="layui-icon">&#xe735;</i>了解原理</a>
+               class="layui-btn layui-btn-warm"  style="padding: 0 5px;"><i class="layui-icon">&#xe735;</i>了解更多</a>
         </div>
 
         <input type="text" style="opacity: 0; z-index: -10; height: 1px" id="passwordCopy"
